@@ -17,8 +17,8 @@ int	main(void)
 	if (!friends)
 		return (1);
 
-	short coins = 475;
-	double channel = 49.3;
+	short coins = -475;
+	double channel = -49.3;
 	bool connected = true;
 
 	Json *json = json_build(6,

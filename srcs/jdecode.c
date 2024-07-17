@@ -158,6 +158,7 @@ double	jdecode_decimal(const char *str, size_t size)
 	{
 		sign = -1;
 		str++;
+		size--;
 	}
 	else
 		sign = 1;
@@ -186,6 +187,7 @@ long	jdecode_int(const char *str, size_t size)
 	{
 		sign = -1;
 		str++;
+		size--;
 	}
 	else
 		sign = 1;
