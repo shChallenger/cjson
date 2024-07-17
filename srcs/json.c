@@ -146,6 +146,9 @@ const JPair *json_get(const Json *json, const char *key)
 	size_t encoded_size;
 	char *encoded_key = jencode_str(key, strlen(key), &encoded_size);
 
+	if (!encoded_key)
+		return (NULL);
+
 	for (const JPair *pair = json->start; pair; pair = pair->next)
 	{
 		if (pair->key_size == encoded_size &&
