@@ -64,6 +64,8 @@ int	main(void)
 
 	if (!decoded)
 		return (1);
+
+	printf("Elements count : %ld\n", decoded->count);
 	
 	// Checking username value (with specials chars)
 	const JPair *username_pair = json_get(decoded, "username");
@@ -106,6 +108,8 @@ int	main(void)
 
 	if (!friends)
 		return (1);
+	
+	printf("Friends count : %ld\n", friends->count);
 	
 	// Print all friends
 	for (const JEle *friend = friends->start; friend; friend = friend->next)

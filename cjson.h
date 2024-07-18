@@ -39,6 +39,7 @@ typedef struct jarray
 {
 	JEle	*start;
 	JEle	*end;
+	size_t	count;
 	size_t	size;
 } JArray;
 
@@ -60,6 +61,7 @@ typedef struct json
 {
 	JPair	*start;
 	JPair	*end;
+	size_t	count;
 	size_t	size;
 } Json;
 

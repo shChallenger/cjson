@@ -24,6 +24,7 @@ void	json_init(Json *json)
 	json->start = NULL;
 	json->end = NULL;
 	json->size = 2;
+	json->count = 0;
 }
 
 void	json_add(Json *json, JPair *pair)
@@ -36,6 +37,7 @@ void	json_add(Json *json, JPair *pair)
 		json->start = pair;
 	json->end = pair;
 	json->size += (isnt_empty + pair->key_size + 1 + pair->value_size);
+	json->count++;
 }
 
 inline bool	json_addsafe(Json *json, JPair *pair)

@@ -24,6 +24,7 @@ void	jarray_init(JArray *array)
 	array->start = NULL;
 	array->end = NULL;
 	array->size = 2;
+	array->count = 0;
 }
 
 void	jarray_add(JArray *array, JEle *ele)
@@ -36,6 +37,7 @@ void	jarray_add(JArray *array, JEle *ele)
 		array->start = ele;
 	array->end = ele;
 	array->size += (isnt_empty + ele->size);
+	array->count++;
 }
 
 inline bool	jarray_addsafe(JArray *array, JEle *ele)

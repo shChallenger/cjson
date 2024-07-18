@@ -110,7 +110,7 @@ char	*jdecode_str(const char *str, size_t size)
 	{
 		switch (*ptr++)
 		{
-			EXTRA_CHARS_CASE:
+			case '\\':
 			{
 				extra_chars++;
 				ptr++;
@@ -133,7 +133,7 @@ char	*jdecode_str(const char *str, size_t size)
 	{
 		switch (*++str)
 		{
-			EXTRA_CHARS_CASE:
+			case '\\':
 			{
 				str++;
 				size--;
