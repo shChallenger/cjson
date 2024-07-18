@@ -117,7 +117,7 @@ JArray	*jarray_decode(const char *str, size_t size)
 		if (!ele || !(ele->ptr = jdecode_resize(str, end, &ele->size)))
 			return (jarray_clear(array), free(array), free(ele), NULL);
 		
-		ele->type = jdecode_type(str, str + ele->size);
+		ele->type = jdecode_type(ele->ptr, ele->ptr + ele->size);
 		ele->next = NULL;
 		jarray_add(array, ele);
 		str = end + 1;
