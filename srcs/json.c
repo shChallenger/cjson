@@ -107,38 +107,28 @@ Json	*json_decode(const char *str, size_t size)
 	
 	json_init(json);
 
+	// trim input
 	const char *str_end = str + size;
-	const char *temp_end = str_end;
-	const char *save_start = str;
-	jdecode_trim(&str, &temp_end);
-	size = size - 1 - (str_end - temp_end) - (str - save_start);
-	str += 1;
+	jdecode_trim(&str, &str_end);
+	size = str_end - str++ - 1;
 
 	while (size--)
 	{
 		const char *middle = jdecode_next(str, &size, ':');
 		const char *end = jdecode_next(middle, &size, ',');
 
-		const char *temp_middle = middle;
-		jdecode_trim(&str, &temp_middle);
-
 		JPair *pair = malloc(sizeof(JPair));
 
-		if (!pair || !(pair->key = jdecode_resize(str, temp_middle)))
+		if (!pair || !(pair->key = jdecode_resize(str, middle, &pair->key_size)))
 			return (json_clear(json), free(json), free(pair), NULL);
 		
-		pair->key_size = temp_middle - str;
-		str = end + 1;
-		temp_middle = middle + 1;
-		jdecode_trim(&temp_middle, &end);
-		
-		if (!(pair->value = jdecode_resize(temp_middle, end)))
+		if (!(pair->value = jdecode_resize(middle + 1, end, &pair->value_size)))
 			return (json_clear(json), free(json), free(pair->key), free(pair), NULL);
 		
-		pair->value_size = end - temp_middle;
-		pair->type = jdecode_type(temp_middle, end);
+		pair->type = jdecode_type(pair->value, pair->value + pair->value_size);
 		pair->next = NULL;
 		json_add(json, pair);
+		str = end + 1;
 	}
 	return (json);
 }

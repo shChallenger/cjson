@@ -32,15 +32,16 @@ void	jdecode_trim(const char **str, const char **end)
 	}
 }
 
-char	*jdecode_resize(const char *str, const char *end)
+char	*jdecode_resize(const char *str, const char *end, size_t *new_length)
 {
-	const size_t length = end - str;
-	char *resized = malloc(length + 1);
+	jdecode_trim(&str, &end);
+	*new_length = end - str;
+	char *resized = malloc(*new_length + 1);
 
 	if (!resized)
 		return (NULL);
 	
-	memcpy(mempcpy(resized, str, length), "", 1);
+	memcpy(mempcpy(resized, str, *new_length), "", 1);
 	return (resized);
 }
 

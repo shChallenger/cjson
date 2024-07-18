@@ -4,7 +4,6 @@
 
 # include <stdbool.h>
 # include <stddef.h>
-# include <stdio.h>
 
 # ifndef uchar
 #  define uchar unsigned char
@@ -69,7 +68,7 @@ typedef struct json
 
 void	jdecode_trim(const char **str, const char **end);
 
-char	*jdecode_resize(const char *str, const char *end);
+char	*jdecode_resize(const char *str, const char *end, size_t *new_length);
 
 const char	*jdecode_next(const char *str, size_t *size, char c);
 

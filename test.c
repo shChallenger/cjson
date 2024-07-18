@@ -34,7 +34,7 @@ int	main(void)
 
 	// Add json content, for testing purposes
 	if (!json_addsafe(json, jpair_build(J_SELF, "itself", json, json->size)))
-		return (jarray_free(friends), 1);
+		return (json_free(json), jarray_free(friends), 1);
 	
 	char *encoded = json_encode(json);
 
@@ -65,7 +65,7 @@ int	main(void)
 	if (!decoded)
 		return (1);
 
-	printf("Elements count : %ld\n", decoded->count);
+	printf("Elements count : %lu\n", decoded->count);
 	
 	// Checking username value (with specials chars)
 	const JPair *username_pair = json_get(decoded, "username");
@@ -109,12 +109,15 @@ int	main(void)
 	if (!friends)
 		return (1);
 	
-	printf("Friends count : %ld\n", friends->count);
+	printf("Friends count : %lu\n", friends->count);
 	
 	// Print all friends
 	for (const JEle *friend = friends->start; friend; friend = friend->next)
 	{
 		char *friend_decoded = jdecode_str(friend->ptr, friend->size);
+
+		if (!friend_decoded)
+			return (jarray_free(friends), 1);
 		
 		printf("Friend name : %s\n", friend_decoded);
 

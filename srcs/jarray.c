@@ -103,27 +103,21 @@ JArray	*jarray_decode(const char *str, size_t size)
 		return (NULL);
 	
 	jarray_init(array);
-
+	
+	// trim input
 	const char *str_end = str + size;
-	const char *temp_end = str_end;
-	const char *save_start = str;
-	jdecode_trim(&str, &temp_end);
-	size = size - 1 - (str_end - temp_end) - (str - save_start);
-	str += 1;
+	jdecode_trim(&str, &str_end);
+	size = str_end - str++ - 1;
 
 	while (size--)
 	{
 		const char *end = jdecode_next(str, &size, ',');
 		JEle *ele = malloc(sizeof(JEle));
 
-		temp_end = end;
-		jdecode_trim(&str, &temp_end);
-
-		if (!ele || !(ele->ptr = jdecode_resize(str, temp_end)))
+		if (!ele || !(ele->ptr = jdecode_resize(str, end, &ele->size)))
 			return (jarray_clear(array), free(array), free(ele), NULL);
 		
-		ele->size = temp_end - str;
-		ele->type = jdecode_type(str, temp_end);
+		ele->type = jdecode_type(str, str + ele->size);
 		ele->next = NULL;
 		jarray_add(array, ele);
 		str = end + 1;
