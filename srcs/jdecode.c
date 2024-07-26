@@ -48,8 +48,8 @@ char	*jdecode_resize(const char *str, const char *end, size_t *new_length)
 const char	*jdecode_next(const char *str, size_t *size, const char c)
 {
 	bool quotes = false;
-	bool array = false;
-	bool json = false;
+	size_t array = false;
+	size_t json = false;
 	const char *ptr = str;
 
 	for (; *size; ptr++, (*size)--)
@@ -64,13 +64,17 @@ const char	*jdecode_next(const char *str, size_t *size, const char c)
 				if (!array && !json)
 					quotes = !quotes;
 				break;
-			case '{': case '}':
-				if (!array && !quotes)
-					json = !json;
+			case '{':
+				json += (!array && !quotes);
 				break;
-			case '[': case ']':
-				if (!json && !quotes)
-					array = !array;
+			case '}':
+				json -= (!array && !quotes);
+				break;
+			case '[':
+				array += (!json && !quotes);
+				break;
+			case ']':
+				array -= (!json && !quotes);
 				break;
 			default:
 				if (*ptr == c && !quotes && !array && !json)

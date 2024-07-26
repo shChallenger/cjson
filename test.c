@@ -32,8 +32,10 @@ int	main(void)
 	if (!json)
 		return (jarray_free(friends), 1);
 
-	// Add json content, for testing purposes
+	// Add json content 2 times, for testing purposes
 	if (!json_addsafe(json, jpair_build(J_SELF, "itself", json, json->size)))
+		return (json_free(json), jarray_free(friends), 1);
+	if (!json_addsafe(json, jpair_build(J_SELF, "itself2", json, json->size)))
 		return (json_free(json), jarray_free(friends), 1);
 	
 	char *encoded = json_encode(json);
@@ -57,10 +59,18 @@ int	main(void)
 		return (1);
 	
 	// For testing purposes, we will work on the Json embedded
-	const JPair *embedded_pair = json_get(decoded_all, "itself");
+	const JPair *embedded_pair2 = json_get(decoded_all, "itself2");
+
+	Json *decoded2 = json_decode(embedded_pair2->value, embedded_pair2->value_size);
+	json_free(decoded_all); // We do not need this anymore
+
+	if (!decoded2)
+		return (1);
+	
+	const JPair *embedded_pair = json_get(decoded2, "itself");
 
 	Json *decoded = json_decode(embedded_pair->value, embedded_pair->value_size);
-	json_free(decoded_all); // We do not need this anymore
+	json_free(decoded2); // We do not need this anymore
 
 	if (!decoded)
 		return (1);
