@@ -25,30 +25,14 @@ JPair	*jpair_new(JType type)
 	return (pair);
 }
 
-bool	jpair_setkey(JPair *pair, const char *key, size_t size)
+inline bool	jpair_setkey(JPair *pair, const char *key, size_t size)
 {
-	size_t new_size;
-	char *encoded = jencode_str(key, size, &new_size);
-
-	if (encoded)
-	{
-		pair->key = encoded;
-		pair->key_size = new_size;
-	}
-	return (encoded);
+	return (pair->key = jencode_str(key, size, &pair->key_size));
 }
 
-bool	jpair_setvalue(JPair *pair, const void *value, size_t size)
+inline bool	jpair_setvalue(JPair *pair, const void *value, size_t size)
 {
-	size_t new_size;
-	char *encoded = jencode(pair->type, value, size, &new_size);
-
-	if (encoded)
-	{
-		pair->value = encoded;
-		pair->value_size = new_size;
-	}
-	return (encoded);
+	return (pair->value = jencode(pair->type, value, size, &pair->value_size));
 }
 
 JPair	*jpair_build(JType type, const char *key, const void *value, size_t value_size)

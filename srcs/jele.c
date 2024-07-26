@@ -21,17 +21,9 @@ JEle	*jele_new(JType type)
 	return (ele);
 }
 
-bool	jele_setvalue(JEle *ele, const void *value, size_t size)
+inline bool	jele_setvalue(JEle *ele, const void *value, size_t size)
 {
-	size_t	new_size;
-	char *encoded = jencode(ele->type, value, size, &new_size);
-
-	if (encoded)
-	{
-		ele->ptr = encoded;
-		ele->size = new_size;
-	}
-	return (encoded);
+	return (ele->ptr = jencode(ele->type, value, size, &ele->size));
 }
 
 JEle	*jele_build(JType type, const void *value, size_t value_size)
